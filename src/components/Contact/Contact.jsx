@@ -1,71 +1,29 @@
-import { nanoid } from 'nanoid';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { useId } from 'react';
+import { number } from 'prop-types';
 import css from './Contact.module.css';
+import { ImPhone, ImUser } from 'react-icons/im';
 
-const ContactForm = ({ addContact }) => {
-  const initialValues = { name: '', number: '' };
-  const nameFieldId = useId();
-  const numberFieldId = useId();
-  const addContactSchema = Yup.object().shape({
-    name: Yup.string()
-      .min(3, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required!'),
-    number: Yup.number()
-      .min(7, 'Too Short!')
-      .required('Required!')
-      .typeError('Enter phone-number!'),
-  });
-
-  const handleFormSubmit = (values, actions) => {
-    values.id = nanoid(5);
-    addContact(values);
-    actions.resetForm();
-  };
-
+const Contact = ({ contact: { id, name, number }, deleteContacts }) => {
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleFormSubmit}
-      validationSchema={addContactSchema}
-    >
-      <Form className={css.form}>
-        <div className={css.formInputWrapper}>
-          <label htmlFor={nameFieldId}>Name</label>
-          <Field
-            className={css.formInput}
-            id={nameFieldId}
-            type="text"
-            name="name"
-          />
-          <ErrorMessage
-            className={css.formInputErrorMsg}
-            name="name"
-            component="span"
-          />
+    <>
+      <div className={css.textWrap}>
+        <div className={css.dataWrap}>
+          <ImUser className={css.icon} size="24" />
+          <p className={css.contactName}>{name}</p>
         </div>
-        <div className={css.formInputWrapper}>
-          <label htmlFor={numberFieldId}>Number</label>
-          <Field
-            className={css.formInput}
-            id={numberFieldId}
-            type="text"
-            name="number"
-          />
-          <ErrorMessage
-            className={css.formInputErrorMsg}
-            name="number"
-            component="span"
-          />
+        <div className={css.dataWrap}>
+          <ImPhone className={css.icon} size="20" />
+          <p className={css.contactPhone}>{number}</p>
         </div>
-        <button className={css.formSbmBtn} type="submit">
-          Add contact
-        </button>
-      </Form>
-    </Formik>
+      </div>
+      <button
+        type="button"
+        className={css.deleteContactBtn}
+        onClick={() => deleteContacts(id)}
+      >
+        Delete
+      </button>
+    </>
   );
 };
 
-export default ContactForm;
+export default Contact;
