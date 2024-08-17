@@ -10,7 +10,7 @@ const App = () => {
     const contactsFromLSData = JSON.parse(
       window.localStorage.getItem('contacts')
     );
-    if (contactsFromLSData !== null && contactsFromLSData.contacts.length > 4) {
+    if (contactsFromLSData !== null) {
       return contactsFromLSData.contacts;
     }
     return initialContacts;
@@ -35,7 +35,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify({ contacts }));
+    window.localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   return (
