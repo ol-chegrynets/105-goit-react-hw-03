@@ -11,7 +11,7 @@ const App = () => {
       window.localStorage.getItem('contacts')
     );
     if (contactsFromLSData !== null) {
-      return contactsFromLSData.contacts;
+      return contactsFromLSData;
     }
     return initialContacts;
   });
